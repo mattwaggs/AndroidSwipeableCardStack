@@ -30,8 +30,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     //compile(name:'android-card-stack-0.1.0', ext:'aar')
     //http://stackoverflow.com/questions/21170395/how-to-include-a-library-module-dependency-in-an-android-studio-project
-    //compile project(":CardStack")
-    compile 'com.github.mattwaggs:AndroidSwipeableCardStack:0.1.5'
+    compile project(":CardStack")
+    //compile 'com.github.mattwaggs:AndroidSwipeableCardStack:0.1.5'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile "com.android.support:cardview-v7:23.1.1"
 }
