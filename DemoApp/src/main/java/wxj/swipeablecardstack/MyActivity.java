@@ -10,6 +10,7 @@ import com.wenchao.cardstack.CardStack;
 
 
 public class MyActivity extends Activity {
+
     private CardStack mCardStack;
     private CardsDataAdapter mCardAdapter;
 
@@ -24,11 +25,10 @@ public class MyActivity extends Activity {
         mCardStack.setStackMargin(20);
 
         mCardAdapter = new CardsDataAdapter(getApplicationContext());
-        mCardAdapter.add("test1");
-        mCardAdapter.add("test2");
-        mCardAdapter.add("test3");
-        mCardAdapter.add("test4");
-        mCardAdapter.add("test5");
+
+        for (int i =0; i< 25; i ++) {
+            mCardAdapter.add("Card: " + (i+1));
+        }
 
         mCardStack.setAdapter(mCardAdapter);
 

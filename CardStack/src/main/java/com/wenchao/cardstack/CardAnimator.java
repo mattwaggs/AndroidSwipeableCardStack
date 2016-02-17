@@ -88,10 +88,10 @@ public class CardAnimator{
 
     private void setupRemotes(){
         View topView = getTopView();
-        mRemoteLayouts[0] = getMoveParams(topView, REMOTE_DISTANCE, -REMOTE_DISTANCE);
-        mRemoteLayouts[1] = getMoveParams(topView, REMOTE_DISTANCE, REMOTE_DISTANCE);
-        mRemoteLayouts[2] = getMoveParams(topView, -REMOTE_DISTANCE, -REMOTE_DISTANCE);
-        mRemoteLayouts[3] = getMoveParams(topView, -REMOTE_DISTANCE, REMOTE_DISTANCE);
+        mRemoteLayouts[0] = getMoveParams(topView, 0, -REMOTE_DISTANCE);
+        mRemoteLayouts[1] = getMoveParams(topView, 0, REMOTE_DISTANCE);
+        mRemoteLayouts[2] = getMoveParams(topView, 0, -REMOTE_DISTANCE);
+        mRemoteLayouts[3] = getMoveParams(topView, 0, REMOTE_DISTANCE);
 
     }
 
@@ -195,6 +195,9 @@ public class CardAnimator{
 
     }
 
+    /*
+     * Reverse occurs when a swipe is canceled and the card should be put back in the middle.
+     */
     public void reverse(MotionEvent e1, MotionEvent e2){
         final View topView =  getTopView();
         ValueAnimator rotationAnim = ValueAnimator.ofFloat(mRotation, 0f);
@@ -229,30 +232,30 @@ public class CardAnimator{
 
         View topView =  getTopView();
 
-        float rotation_coefficient = 20f;
+        // changed coefficient to rotate less.
+        float rotation_coefficient = 200f;
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) topView.getLayoutParams();
         RelativeLayout.LayoutParams topViewLayouts = mLayoutsMap.get(topView);
         int x_diff = (int)((e2.getRawX()-e1.getRawX()));
-        int y_diff = (int)((e2.getRawY()-e1.getRawY()));
 
         layoutParams.leftMargin  = topViewLayouts.leftMargin+ x_diff;
         layoutParams.rightMargin = topViewLayouts.rightMargin - x_diff;
-        layoutParams.topMargin  = topViewLayouts.topMargin + y_diff;
-        layoutParams.bottomMargin  = topViewLayouts.bottomMargin - y_diff;
 
         mRotation = (x_diff/rotation_coefficient);
         topView.setRotation(mRotation);
         topView.setLayoutParams(layoutParams);
 
-        //animate secondary views.
-        for(View v : mCardCollection){
-            int index  = mCardCollection.indexOf(v);
-            if(v!=getTopView() && index != 0){
-                LayoutParams l = scaleFrom(v, mLayoutsMap.get(v), (int) (Math.abs(x_diff) * 0.05));
-                moveFrom(v, l, 0, (int) (Math.abs(x_diff) * 0.1));
+        // don't animate secondary views.
+        /*
+            for(View v : mCardCollection){
+                int index  = mCardCollection.indexOf(v);
+                if(v!=getTopView() && index != 0){
+                    LayoutParams l = scaleFrom(v, mLayoutsMap.get(v), (int) (Math.abs(x_diff) * 0.05));
+                    moveFrom(v, l, 0, (int) (Math.abs(x_diff) * 0.1));
+                }
             }
-        }
+        */
     }
 
     public void setStackMargin(int margin) {

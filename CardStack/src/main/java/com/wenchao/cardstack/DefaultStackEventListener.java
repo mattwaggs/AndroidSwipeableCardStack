@@ -1,38 +1,23 @@
 package com.wenchao.cardstack;
 
+import android.util.Log;
+
 public class DefaultStackEventListener implements CardStack.CardEventListener {
 
-    private float mThreshold;
+    private static final String TAG = "DefaultStackListener";
 
-    public DefaultStackEventListener(int i) {
-        mThreshold = i;
+    @Override
+    public void onSwipeLeft(int mIndex) {
+        Log.d(TAG, "Card Swiped Left");
     }
 
     @Override
-    public boolean swipeEnd(int section, float distance) {
-        return distance > mThreshold;
+    public void onSwipeRight(int mIndex) {
+        Log.d(TAG, "Card Swiped Right");
     }
 
     @Override
-    public boolean swipeStart(int section, float distance) {
-
-        return false;
+    public void onCardTapped(int mIndex) {
+        Log.d(TAG, "Card Tapped");
     }
-
-    @Override
-    public boolean swipeContinue(int section, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void discarded(int mIndex,int direction) {
-
-    }
-
-    @Override
-    public void topCardTapped() {
-
-    }
-
-
 }

@@ -8,6 +8,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,26 +26,24 @@ public class CardStack extends RelativeLayout {
     private ArrayAdapter<?> mAdapter;
     private OnTouchListener mOnTouchListener;
     private CardAnimator mCardAnimator;
-    //private Queue<View> mIdleStack = new Queue<View>;
 
+    private int mThreshold = 400;
 
-
-    private CardEventListener mEventListener = new DefaultStackEventListener(300);
+    private CardEventListener mEventListener = new DefaultStackEventListener();
     private int mContentResource = 0;
 
+    public interface CardEventListener {
+        void onSwipeLeft(int mIndex);
+        void onSwipeRight(int mIndex);
+        void onCardTapped(int mIndex);
+    }
 
-    public interface CardEventListener{
-        //section
-        // 0 | 1
-        //--------
-        // 2 | 3
-        // swipe distance, most likely be used with height and width of a view ;
+    public int getThreshold() {
+        return mThreshold;
+    }
 
-        boolean swipeEnd(int section,float distance);
-        boolean swipeStart(int section,float distance);
-        boolean swipeContinue(int section, float distanceX,float distanceY );
-        void discarded(int mIndex, int direction);
-        void topCardTapped();
+    public void setThreshold(int mThreshold) {
+        this.mThreshold = mThreshold;
     }
 
     public void discardTop(final int direction){
@@ -53,7 +52,11 @@ public class CardStack extends RelativeLayout {
             public void onAnimationEnd(Animator arg0) {
                 mCardAnimator.initLayout();
                 mIndex++;
-                mEventListener.discarded(mIndex, direction);
+                if(direction == 0 || direction == 2) {
+                    mEventListener.onSwipeLeft(mIndex);
+                }else{
+                    mEventListener.onSwipeRight(mIndex);
+                }
 
                 //mIndex = mIndex%mAdapter.getCount();
                 loadLast();
@@ -113,18 +116,10 @@ public class CardStack extends RelativeLayout {
         loadData();
     }
 
-    public void setVisibleCardNum(int visiableNum){
-        mNumVisible = visiableNum;
-        reset(false);
-    }
-
-    public void setThreshold(int t){
-        mEventListener = new DefaultStackEventListener(t);
-    }
-
     public void setListener(CardEventListener cel){
         mEventListener = cel;
     }
+
     private void setupAnimation(){
         final View cardView = viewCollection.get(viewCollection.size()-1);
         mCardAnimator = new CardAnimator(viewCollection, mColor);
@@ -147,9 +142,8 @@ public class CardStack extends RelativeLayout {
                 float x2 = e2.getRawX();
                 float y2 = e2.getRawY();
                 //float distance = CardUtils.distance(x1,y1,x2,y2);
-                final int direction = CardUtils.direction(x1,y1,x2,y2);
+                final int direction = CardUtils.direction(x1,y1,x2, y2);
                 mCardAnimator.drag(e1,e2,distanceX,distanceY);
-                mEventListener.swipeContinue(direction, Math.abs(x2-x1),Math.abs(y2-y1));
                 return true;
             }
 
@@ -163,15 +157,22 @@ public class CardStack extends RelativeLayout {
                 float distance = CardUtils.distance(x1,y1,x2,y2);
                 final int direction = CardUtils.direction(x1,y1,x2,y2);
 
-                boolean discard = mEventListener.swipeEnd(direction, distance);
-                if(discard){
+                boolean discard = mThreshold < distance;
+
+                if(discard) {
+
+                    if(direction == 0 || direction == 2) {
+                        mEventListener.onSwipeLeft(mIndex);
+                    }else{
+                        mEventListener.onSwipeRight(mIndex);
+                    }
+
                     mCardAnimator.discard(direction, new AnimatorListenerAdapter(){
 
                         @Override
                         public void onAnimationEnd(Animator arg0) {
                             mCardAnimator.initLayout();
                             mIndex++;
-                            mEventListener.discarded(mIndex,direction);
 
                             //mIndex = mIndex%mAdapter.getCount();
                             loadLast();
@@ -185,12 +186,15 @@ public class CardStack extends RelativeLayout {
                 }else{
                     mCardAnimator.reverse(e1,e2);
                 }
+
+                Log.d("CardStack", "Stack Count = " + mAdapter.getCount());
+
                 return true;
             }
 
             @Override
             public boolean onTapUp() {
-                mEventListener.topCardTapped();
+                mEventListener.onCardTapped(mIndex);
                 return true;
             }
         }
@@ -214,9 +218,7 @@ public class CardStack extends RelativeLayout {
         }
     };
 
-
     //ArrayList
-
     ArrayList<View> viewCollection = new ArrayList<View>();
     public CardStack(Context context) {
         super(context);
