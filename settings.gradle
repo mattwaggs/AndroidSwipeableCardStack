@@ -1,1 +1,1 @@
-include ':DemoApp', ':CardStack'
+include ':CardStack'
