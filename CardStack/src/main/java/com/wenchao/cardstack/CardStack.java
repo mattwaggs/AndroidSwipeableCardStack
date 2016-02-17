@@ -187,8 +187,6 @@ public class CardStack extends RelativeLayout {
                     mCardAnimator.reverse(e1,e2);
                 }
 
-                Log.d("CardStack", "Stack Count = " + mAdapter.getCount());
-
                 return true;
             }
 
