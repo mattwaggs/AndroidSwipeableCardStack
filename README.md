@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-   compile 'com.github.wenchaojiang:AndroidSwipeableCardStack:0.1.3'
+   compile 'com.github.mattwaggs:AndroidSwipeableCardStack:0.1.4'
 }
 ```
 OR manually
@@ -63,7 +63,7 @@ Put CardStack in your layout file
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding = "20dp"
+        android:padding="20dp"
         android:clipChildren="false"
         android:clipToPadding="false"
     />
@@ -137,45 +137,29 @@ Listening to card stack event
 implement CardStack.CardEventListener, and set it as listener ```mCardStack.setListener(yourListener);   ```
 
 ```java
-Class YourListener extends CardStack.CardEventListener{
-    //implement card event interface
+
+public class YourListener implements CardStack.CardEventListener {
+
+    private static final String TAG = "YourListener";
+
     @Override
-    public boolean swipeEnd(int direction, float distance) {
-        //if "return true" the dismiss animation will be triggered 
-        //if false, the card will move back to stack
-        //distance is finger swipe distance in dp
-        
-        //the direction indicate swipe direction
-        //there are four directions
-        //  0  |  1
-        // ----------
-        //  2  |  3
-        
-        return (distance>300)? true : false;
+    public void onSwipeLeft(int mIndex) {
+        Log.d(TAG, "Card Swiped Left");
     }
 
     @Override
-    public boolean swipeStart(int direction, float distance) {
-    
-        return true;
+    public void onSwipeRight(int mIndex) {
+        Log.d(TAG, "Card Swiped Right");
     }
 
     @Override
-    public boolean swipeContinue(int direction, float distanceX, float distanceY) {
-        
-        return true;
-    }
-
-    @Override
-    public void discarded(int id, int direction) {
-       //this callback invoked when dismiss animation is finished. 
-    }
-    
-    @Override
-    public void topCardTapped() {
-         //this callback invoked when a top card is tapped by user. 
+    public void onCardTapped(int mIndex) {
+        Log.d(TAG, "Card Tapped");
     }
 }
+
+
+mCardStack.setListener(new YourListener());
 ```
 
 
