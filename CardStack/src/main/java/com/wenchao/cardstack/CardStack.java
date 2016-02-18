@@ -136,7 +136,6 @@ public class CardStack extends RelativeLayout {
                 float y1 = e1.getRawY();
                 float x2 = e2.getRawX();
                 float y2 = e2.getRawY();
-                //float distance = CardUtils.distance(x1,y1,x2,y2);
                 final int direction = CardUtils.direction(x1,y1,x2, y2);
                 mCardAnimator.drag(e1,e2,distanceX,distanceY);
                 return true;
@@ -149,7 +148,7 @@ public class CardStack extends RelativeLayout {
                 float y1 = e1.getRawY();
                 float x2 = e2.getRawX();
                 float y2 = e2.getRawY();
-                float distance = CardUtils.distance(x1,y1,x2,y2);
+                float distance = CardUtils.distance(x1,0,x2,0); // ignore vertical distance.
                 final int direction = CardUtils.direction(x1,y1,x2,y2);
 
                 boolean discard = mThreshold < distance;
