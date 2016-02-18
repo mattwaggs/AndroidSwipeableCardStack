@@ -33,8 +33,11 @@ public class CardStack extends RelativeLayout {
     private int mContentResource = 0;
 
     public interface CardEventListener {
-        void onSwipeLeft(int mIndex);
-        void onSwipeRight(int mIndex);
+        void onMoveLeft(View topCard, float mThresholdPercentage);
+        void onMoveRight(View topCard, float mThresholdPercentage);
+        void onMoveCanceled(View topCard);
+        void onSwipedLeft(int mIndex);
+        void onSwipedRight(int mIndex);
         void onCardTapped(int mIndex);
     }
 
@@ -53,9 +56,9 @@ public class CardStack extends RelativeLayout {
                 mCardAnimator.initLayout();
                 mIndex++;
                 if(direction == 0 || direction == 2) {
-                    mEventListener.onSwipeLeft(mIndex);
+                    mEventListener.onSwipedLeft(mIndex);
                 }else{
-                    mEventListener.onSwipeRight(mIndex);
+                    mEventListener.onSwipedRight(mIndex);
                 }
 
                 //mIndex = mIndex%mAdapter.getCount();
@@ -138,6 +141,16 @@ public class CardStack extends RelativeLayout {
                 float y2 = e2.getRawY();
                 final int direction = CardUtils.direction(x1,y1,x2, y2);
                 mCardAnimator.drag(e1,e2,distanceX,distanceY);
+
+                float distance = CardUtils.distance(x1,0,x2,0);
+                if(direction == 0  || direction == 2) {
+                    // get the current card and color red
+                    mEventListener.onMoveLeft(mCardAnimator.getTopView(), (distance / (float)mThreshold));
+                }else{
+                    // get the current card and color green
+                    mEventListener.onMoveRight(mCardAnimator.getTopView(), (distance / (float)mThreshold));
+                }
+
                 return true;
             }
 
@@ -156,9 +169,9 @@ public class CardStack extends RelativeLayout {
                 if(discard) {
 
                     if(direction == 0 || direction == 2) {
-                        mEventListener.onSwipeLeft(mIndex);
+                        mEventListener.onSwipedLeft(mIndex);
                     }else{
-                        mEventListener.onSwipeRight(mIndex);
+                        mEventListener.onSwipedRight(mIndex);
                     }
 
                     mCardAnimator.discard(direction, new AnimatorListenerAdapter(){
@@ -179,6 +192,7 @@ public class CardStack extends RelativeLayout {
                     });
                 }else{
                     mCardAnimator.reverse(e1,e2);
+                    mEventListener.onMoveCanceled(mCardAnimator.getTopView());
                 }
 
                 return true;

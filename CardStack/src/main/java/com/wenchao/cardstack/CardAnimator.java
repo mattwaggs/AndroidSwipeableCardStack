@@ -96,7 +96,7 @@ public class CardAnimator{
 
     }
 
-    private View getTopView(){
+    public View getTopView(){
         return mCardCollection.get(mCardCollection.size()-1);
     }
 
