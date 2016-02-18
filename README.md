@@ -1,5 +1,6 @@
 AndroidSwipeableCardStack
 =========================
+[![Release](https://jitpack.io/v/User/Repo.svg)](https://jitpack.io/#User/Repo)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidSwipeableCardStack-green.svg?style=true)](https://android-arsenal.com/details/1/2724)
 
 
@@ -29,7 +30,7 @@ repositories {
 }
 
 dependencies {
-   compile 'com.github.mattwaggs:AndroidSwipeableCardStack:0.1.9'
+   compile 'com.github.mattwaggs:AndroidSwipeableCardStack:0.1.10'
 }
 ```
 OR manually
