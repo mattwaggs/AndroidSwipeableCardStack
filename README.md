@@ -1,6 +1,7 @@
 AndroidSwipeableCardStack
 =========================
-[![Release](https://jitpack.io/v/User/Repo.svg)](https://jitpack.io/#User/Repo)
+[![Release](https://jitpack.io/v/mattwaggs/AndroidSwipeableCardStack.svg)](https://jitpack.io/#mattwaggs/AndroidSwipeableCardStack)
+
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidSwipeableCardStack-green.svg?style=true)](https://android-arsenal.com/details/1/2724)
 
 
