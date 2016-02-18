@@ -2,7 +2,6 @@ package com.wenchao.cardstack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 import com.wenchao.animation.RelativeLayoutParamsEvaluator;
 
@@ -11,7 +10,6 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
-import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,9 @@ import android.widget.RelativeLayout.LayoutParams;
 import static com.wenchao.cardstack.CardUtils.*;
 
 public class CardAnimator{
-    private static final String DEBUG_TAG = "CardAnimator";
+
+    private static final String TAG = "CardAnimator";
+
     private static final int REMOTE_DISTANCE = 1000;
     private int mBackgroundColor;
     public ArrayList<View> mCardCollection;
@@ -30,7 +30,8 @@ public class CardAnimator{
     private HashMap<View,RelativeLayout.LayoutParams> mLayoutsMap;
     private RelativeLayout.LayoutParams[] mRemoteLayouts = new RelativeLayout.LayoutParams[4];
     private RelativeLayout.LayoutParams baseLayout;
-    private int mStackMargin=20;
+
+    private int mStackMargin=0; // no stack margin to give a flat look.
 
     public CardAnimator(ArrayList<View> viewCollection, int backgroundColor){
         mCardCollection = viewCollection;
@@ -257,12 +258,6 @@ public class CardAnimator{
             }
         */
     }
-
-    public void setStackMargin(int margin) {
-        mStackMargin = margin;
-        initLayout();
-    }
-
 
 
 }
