@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-   compile 'com.github.mattwaggs:AndroidSwipeableCardStack:0.1.7'
+   compile 'com.github.mattwaggs:AndroidSwipeableCardStack:0.1.8'
 }
 ```
 OR manually
