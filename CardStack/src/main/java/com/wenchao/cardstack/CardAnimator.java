@@ -39,6 +39,7 @@ public class CardAnimator{
         setup();
 
     }
+
     private void setup(){
         mLayoutsMap = new HashMap<View,RelativeLayout.LayoutParams>();
 
