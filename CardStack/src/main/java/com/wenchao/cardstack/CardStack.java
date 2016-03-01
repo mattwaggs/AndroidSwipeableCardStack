@@ -43,6 +43,7 @@ public class CardStack extends RelativeLayout {
         void onSwipedLeft(int mIndex);
         void onSwipedRight(int mIndex);
         void onCardTapped(int mIndex);
+        void readyForNext();
 
     }
 
@@ -116,6 +117,7 @@ public class CardStack extends RelativeLayout {
             addContainerViews();
         }
         setupAnimation();
+        mEventListener.readyForNext();
         loadData();
     }
 
@@ -205,7 +207,7 @@ public class CardStack extends RelativeLayout {
 
             @Override
             public boolean onTapUp() {
-                //mEventListener.onCardTapped(mIndex);
+                mEventListener.onCardTapped(mIndex);
                 return true;
             }
         }
@@ -300,25 +302,6 @@ public class CardStack extends RelativeLayout {
 
     public View getTopView() {
         return mCardAnimator.getTopView();
-    }
-
-    public void setYesButtonImageId(int id) {
-        this.currentYesImage = (ImageButton) findViewById(id);
-        currentYesImage.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEventListener.onSwipedRight(getCurrIndex());
-            }
-        });
-    }
-    public void setNoButtonImageId(int id) {
-        this.currentNoImage = (ImageButton) findViewById(id);
-        currentNoImage.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEventListener.onSwipedLeft(getCurrIndex());
-            }
-        });
     }
 
 }
