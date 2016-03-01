@@ -36,4 +36,9 @@ public class DefaultStackEventListener implements CardStack.CardEventListener {
     public void onCardTapped(int mIndex) {
         Log.d(TAG, "Card Tapped");
     }
+
+    @Override
+    public void readyForNext() {
+
+    }
 }
