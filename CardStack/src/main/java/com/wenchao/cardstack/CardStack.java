@@ -117,8 +117,8 @@ public class CardStack extends RelativeLayout {
             addContainerViews();
         }
         setupAnimation();
-        mEventListener.readyForNext();
         loadData();
+        mEventListener.readyForNext();
     }
 
     public void setListener(CardEventListener cel){
