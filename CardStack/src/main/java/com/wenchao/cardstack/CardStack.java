@@ -285,4 +285,11 @@ public class CardStack extends RelativeLayout {
     public int getStackSize() {
         return mNumVisible;
     }
+
+    public void forceSwipeLeft() {
+        mEventListener.onSwipedLeft(this.getCurrIndex());
+    }
+    public void forceSwipeRight() {
+        mEventListener.onSwipedRight(this.getCurrIndex());
+    }
 }
