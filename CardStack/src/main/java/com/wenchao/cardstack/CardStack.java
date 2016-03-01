@@ -292,4 +292,9 @@ public class CardStack extends RelativeLayout {
     public void forceSwipeRight() {
         mEventListener.onSwipedRight(this.getCurrIndex());
     }
+
+    public View getTopView() {
+        return mCardAnimator.getTopView();
+    }
+
 }
